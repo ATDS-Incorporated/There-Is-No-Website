@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Employee Login — Meridian Systems{% endblock %}
+
+{% block content %}
+<h1>Employee Login</h1>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+<form method="POST" class="login-form">
+    <label>Username
+        <input name="username" autocomplete="off" required>
+    </label>
+    <label>Password
+        <input name="password" type="password" required>
+    </label>
+    <button type="submit">Sign in</button>
+</form>
+<p class="muted">Lost access? Contact your administrator.</p>
+{% endblock %}
