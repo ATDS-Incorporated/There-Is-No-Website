@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Meridian Systems{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="brand">Meridian Systems</a>
+            <nav>
+                <a href="/extension/about">About</a>
+                <a href="/extension/services">Services</a>
+                <a href="/extension/contact">Contact</a>
+                <a href="/extension/login" class="btn-login">Employee Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2017 Meridian Systems. All rights reserved.</p>
+            <p class="muted">Internal Portal v4.2.1 · Platform Operations</p>
+        </div>
+    </footer>
+</body>
+</html>
