@@ -8,6 +8,7 @@ init_db()
 #logging
 import logging
 from logging.handlers import RotatingFileHandler
+from db import log_audit
 
 # Configure access logging
 handler = RotatingFileHandler('access.log', maxBytes=100000, backupCount=3)
@@ -63,8 +64,11 @@ def login():
         if user:
             resp = make_response(redirect('/dashboard'))
             resp.set_cookie('role', user['role'])
+            log_audit(username, 'LOGIN_SUCCESS')
             return resp
-        return render_template('login.html', error='Invalid credentials.')
+        else:
+            log_audit(username, 'LOGIN_FAILED')
+            return render_template('login.html', error='Invalid credentials.')
     return render_template('login.html')
 
 

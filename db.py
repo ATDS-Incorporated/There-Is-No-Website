@@ -42,8 +42,26 @@ def init_db():
     conn.commit()
     conn.close()
 
+def log_audit(actor, action, detail=''):
+    conn = get_db()
+    conn.execute(
+        "INSERT INTO audit_log (timestamp, actor, action, detail) "
+        "VALUES (datetime('now'), ?, ?, ?)",
+        (actor, action, detail)
+    )
+    conn.commit()
+    conn.close()
 
-# ---- Helper functions: no hardcoded data, just queries ----
+
+def get_audit_log(limit=50):
+    conn = get_db()
+    rows = conn.execute(
+        "SELECT * FROM audit_log ORDER BY id DESC LIMIT ?", (limit,)
+    ).fetchall()
+    conn.close()
+    return rows
+
+# Helper functions
 
 def find_user_by_credentials(username, password):
     """Safe parameterized query. Use this everywhere except the SQLi puzzle."""
