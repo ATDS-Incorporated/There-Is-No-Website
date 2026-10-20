@@ -1,9 +1,30 @@
+#website
 from flask import Flask, render_template, request, redirect, make_response
 from db import init_db, find_user_by_credentials, get_file_by_id, get_all_messages
 
 app = Flask(__name__)
 init_db()
 
+#logging
+import logging
+from logging.handlers import RotatingFileHandler
+
+# Configure access logging
+handler = RotatingFileHandler('access.log', maxBytes=100000, backupCount=3)
+handler.setLevel(logging.INFO)
+handler.setFormatter(logging.Formatter(
+    '[%(asctime)s] %(levelname)s %(message)s'
+))
+app.logger.addHandler(handler)
+app.logger.setLevel(logging.INFO)
+
+
+@app.before_request
+def log_request():
+    app.logger.info(
+        f'{request.remote_addr} {request.method} {request.path} '
+        f'UA={request.user_agent.string[:60]}'
+    )
 
 # --- Public corporate pages (the "normal looking" site) ---
 
@@ -47,10 +68,10 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/dashboard')
+@app.route('/employee/dashboard')
 def dashboard():
     messages = get_all_messages()
-    return render_template('dashboard.html', messages=messages)
+    return render_template('/employee/dashboard.html', messages=messages)
 
 
 @app.route('/files/<int:file_id>')
