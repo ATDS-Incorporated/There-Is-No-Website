@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\templates",
+    "\\templates\\public"
   ],
+  "SelectedNode": "\\templates\\do_not_touch_or_will_crash.html",
   "PreviewInSolutionExplorer": false
 }

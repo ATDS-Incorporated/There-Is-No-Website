@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Login</title>
+	<style>
+	  body { font-family: Arial, sans-serif; max-width: 480px; margin: 40px auto; }
+	  form { display: flex; flex-direction: column; gap: 8px; }
+	  label { font-weight: bold; }
+	  input[type=text], input[type=password] { padding: 8px; font-size: 14px; }
+	  button { padding: 8px 12px; }
+	  .flash { color: red; }
+	</style>
+  </head>
+  <body>
+	<h1>Sign in</h1>
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+		<div class="flash">{{ messages[0] }}</div>
+	  {% endif %}
+	{% endwith %}
+
+	<form method="post" action="{{ url_for('login') }}">
+	  <label for="username">Username</label>
+	  <input id="username" name="username" type="text" required>
+
+	  <label for="password">Password</label>
+	  <input id="password" name="password" type="password" required>
+
+	  <button type="submit">Log in</button>
+	</form>
+
+	<p><a href="{{ url_for('home') }}">Back to home</a></p>
+  </body>
+</html>

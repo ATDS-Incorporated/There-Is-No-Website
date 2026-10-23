@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>There Is No Website</title>
+	<style>
+	  body { font-family: Arial, sans-serif; max-width: 760px; margin: 40px auto; }
+	  nav a { margin-right: 12px; }
+	</style>
+  </head>
+  <body>
+	<h1>There Is No Website</h1>
+	<nav>
+	  <a href="{{ url_for('home') }}">Home</a>
+	  <a href="{{ url_for('login') }}">Log in</a>
+	  <a href="{{ url_for('dashboard') }}">Dashboard</a>
+	</nav>
+	<p>This is a local test site running on Flask. It is intended for development only.</p>
+  </body>
+</html>
