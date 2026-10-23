@@ -1,44 +1,3 @@
-<<<<<<< HEAD
-import sqlite3
-import os
-
-DB_PATH = os.path.join(os.path.dirname(__file__), 'game.db')
-
-def get_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
-
-def init_db():
-    conn = get_db()
-    c = conn.cursor()
-
-    c.execute('''CREATE TABLE IF NOT EXISTS users
-                 (id INTEGER PRIMARY KEY, username TEXT, password TEXT, role TEXT)''')
-    c.execute('''CREATE TABLE IF NOT EXISTS messages
-                 (id INTEGER PRIMARY KEY, sender TEXT, date TEXT, body TEXT)''')
-    c.execute('''CREATE TABLE IF NOT EXISTS files
-                 (id INTEGER PRIMARY KEY, owner TEXT, filename TEXT, content TEXT)''')
-
-    # If no users exist yet, insert a default local test user
-    c.execute('SELECT COUNT(*) FROM users')
-    count = c.fetchone()[0]
-    if count == 0:
-        c.execute('INSERT INTO users (username, password, role) VALUES (?, ?, ?)',
-                  ('admin', 'password', 'admin'))
-
-    conn.commit()
-    conn.close()
-
-
-def get_user(username):
-    conn = get_db()
-    c = conn.cursor()
-    c.execute('SELECT * FROM users WHERE username = ?', (username,))
-    row = c.fetchone()
-    conn.close()
-    return row
-=======
 import sqlite3
 import os
 
@@ -83,26 +42,8 @@ def init_db():
     conn.commit()
     conn.close()
 
-def log_audit(actor, action, detail=''):
-    conn = get_db()
-    conn.execute(
-        "INSERT INTO audit_log (timestamp, actor, action, detail) "
-        "VALUES (datetime('now'), ?, ?, ?)",
-        (actor, action, detail)
-    )
-    conn.commit()
-    conn.close()
 
-
-def get_audit_log(limit=50):
-    conn = get_db()
-    rows = conn.execute(
-        "SELECT * FROM audit_log ORDER BY id DESC LIMIT ?", (limit,)
-    ).fetchall()
-    conn.close()
-    return rows
-
-# Helper functions
+# ---- Helper functions: no hardcoded data, just queries ----
 
 def find_user_by_credentials(username, password):
     """Safe parameterized query. Use this everywhere except the SQLi puzzle."""
@@ -146,4 +87,3 @@ def db_is_seeded():
         count = 0
     conn.close()
     return count > 0
->>>>>>> eb040c6d018264a2f5ba2599840a4e92e797a3a3
